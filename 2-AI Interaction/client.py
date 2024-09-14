@@ -16,12 +16,12 @@ message = "Hey, I find you cute and want to talk to you"
 
 while True:
 
-    print(f"Sending to server: {message}")
+    print(f"Sending to AI-2: {message}\n")
     s.send(message.encode())
 
     # Receiving response from the server
     data = s.recv(1024).decode()
-    print(f"Received from server: {data}")
+    print(f"Received from AI-2: {data}\n")
 
     if message.lower().strip() == 'bye' or data.lower().strip() == 'bye':
         break

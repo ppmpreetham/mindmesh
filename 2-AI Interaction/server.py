@@ -19,11 +19,11 @@ while True:
     if not data:
         print("No data received. Closing connection.")
         break
-    print(f"Received from client: {data}")
+    print(f"Received from AI-1: {data}\n")
     
     # OLLAMA AI interaction
     message = data
-    ai_response = ollama.chat(model="openhermes", messages=[{
+    ai_response = ollama.chat(model="llama2-uncensored", messages=[{
         "role": 'user',
         "content": message,
     }])
@@ -35,7 +35,7 @@ while True:
 
     # Sending the AI response to the client
     c.send(response.encode())
-    print(f"Sent to client: {response}")
+    print(f"Sent to AI-1: {response}\n")
 
 c.close()
 print("Connection closed.")
