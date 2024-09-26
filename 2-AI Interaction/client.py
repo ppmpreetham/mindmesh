@@ -2,9 +2,9 @@ import socket
 import ollama
 
 # IP address
-host = '192.168.73.187'  
+host = '192.168.14.245'  
 # PORT
-port = 42424
+port = 8750
 
 s = socket.socket()
 s.connect((host, port))
@@ -12,7 +12,7 @@ s.connect((host, port))
 print(f"Connected to server at {host}:{port}")
 
 # First message
-message = "Hey, I find you cute and want to talk to you"
+message = "Hey, how are you"
 
 while True:
 

@@ -2,7 +2,7 @@ import socket
 import ollama
 
 #IP ADDRESS
-host = '192.168.73.187'
+host = '192.168.14.245'
 #PORT
 port = 42424
 
@@ -23,7 +23,7 @@ while True:
     
     # OLLAMA AI interaction
     message = data
-    ai_response = ollama.chat(model="llama2-uncensored", messages=[{
+    ai_response = ollama.chat(model="openhermes", messages=[{
         "role": 'user',
         "content": message,
     }])
