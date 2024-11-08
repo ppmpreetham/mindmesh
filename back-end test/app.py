@@ -15,17 +15,26 @@ html = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chat Interaction</title>
     <style>
-        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; background: #2c2c2c;}
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; background-image: url('https://raw.githubusercontent.com/ppmpreetham/mindmesh/refs/heads/main/back-end%20test/background.png');}
         .container { width: 100%; max-width: 600px; margin-top: 0px; }
-        .message {border-radius: 10px; margin-bottom: 10px; padding: 10px; }
+        .message { border-radius: 10px; margin-bottom: 5px; padding: 10px; }
 
         .received { background-color: #e1f5fe; align-self: flex-start; text-align: left; }
         .sent { background-color: #c8e6c9; align-self: flex-end; text-align: right; }
 
+        .theme-selector { position: absolute; top: 10px; right: 10px; }
     </style>
 </head>
 <body>
-    <h2>AI Chat Interaction</h2>
+    <h2 style="color:white">AI Chat Interaction</h2>
+    <div class="theme-selector">
+        <label for="theme">Select Theme:</label>
+        <select id="theme" onchange="changeTheme()">
+            <option value="whatsapp">Whatsapp</option>
+            <option value="retro">Retro</option>
+            <option value="love">Love Theme</option>
+        </select>
+    </div>
     <div class="container" id="messages"></div>
 
     <script>
@@ -71,9 +80,26 @@ html = """
                 }
             }
         }
+
+        function changeTheme() {
+            const theme = document.getElementById('theme').value;
+            if (theme === 'whatsapp') {
+                document.body.style.backgroundColor = '#f0f0f0';
+                document.body.style.color = 'white';
+            } else if (theme === 'retro') {
+                document.body.style.backgroundColor = '#f5ecdb';
+                document.body.style.color = '#74c6ef';
+            } else if (theme === 'light') {
+                document.body.style.backgroundColor = '#ffffff';
+                document.body.style.color = 'black';
+            } else {
+                document.body.style.backgroundColor = '';
+                document.body.style.color = '';
+            }
+        }
     </script>
 </body>
-</html> 
+</html>
 """
 
 host = '192.168.172.85'

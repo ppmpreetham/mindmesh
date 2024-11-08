@@ -1,29 +1,31 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chat Interaction</title>
     <style>
-        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; }
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; background-image: url('https://raw.githubusercontent.com/ppmpreetham/mindmesh/refs/heads/main/back-end%20test/background.png');}
         .container { width: 100%; max-width: 600px; margin-top: 0px; }
-        .message { padding: 10px; border-radius: 10px; margin-bottom: 10px; max-width: 100%;}
+        .message { border-radius: 10px; margin-bottom: 5px; padding: 10px; }
 
         .received { background-color: #e1f5fe; align-self: flex-start; text-align: left; }
         .sent { background-color: #c8e6c9; align-self: flex-end; text-align: right; }
 
-        .input-container { display: flex; width: 100%; }
-        .input-container input { flex-grow: 1; padding: 10px; font-size: 16px; }
-        .input-container button { padding: 10px 20px; font-size: 16px; }
+        .theme-selector { position: absolute; top: 10px; right: 10px; }
     </style>
 </head>
 <body>
-    <h2>AI Chat Interaction</h2>
-    <div class="container" id="messages"><div class="message received" style="align-self: flex-end; text-align: left">Hey, how are you</div><div class="message received" style="background: green; align-self: flex-start; text-align: right;">I'm doing well, thank you for asking! How about you?</div><div class="message received" style="align-self: flex-end;">It's nice to hear that you're doing well. I'm good as well, thanks for asking! Let me know if there is anything I can help you with today.</div><div class="message received" style="background: green; align-self: flex-start;">Hi there! How are you feeling today? Any specific issue or question you'd like to ask me about?</div><div class="message received" style="align-self: flex-end;">Hello! I'm feeling fine, thanks for asking. No specific issues or questions, just getting to know the capabilities of this AI chatbot.</div><div class="message received" style="background: green; align-self: flex-start;">That's great to hear! If you have any questions or need help with anything related to programming or development, feel free to ask. I'm here to assist you.</div><div class="message received" style="align-self: flex-end;">Thank you so much for your offer! I was actually wondering if you could help me with a problem I've been facing while trying to implement a basic function in Python. Here's the code:
-```python
-def add_numbers(a, b):
-    return a + b
-```
-Everything seems fine, but I get an error when I try to run it. It says "TypeError: must be str, not int". Any idea what might be causing this issue?</div></div>
+    <h2 style="color:white">AI Chat Interaction</h2>
+    <div class="theme-selector">
+        <label for="theme">Select Theme:</label>
+        <select id="theme" onchange="changeTheme()">
+            <option value="whatsapp">Whatsapp</option>
+            <option value="retro">Retro</option>
+            <option value="love">Love Theme</option>
+        </select>
+    </div>
+    <div class="container" id="messages"></div>
 
     <script>
         const ws = new WebSocket("ws://localhost:8000/ws");
@@ -56,16 +58,37 @@ Everything seems fine, but I get an error when I try to run it. It says "TypeErr
             const messages = document.getElementById('messages').children;
             for (let i = 0; i < messages.length; i++) {
                 if (i % 2 === 1) {
-                    messages[i].style.background = 'green';
+                    messages[i].style.background = '#005c4b';
+                    messages[i].style.color = 'white';
                     messages[i].style.alignSelf = 'flex-start';
-                    messages[i].style.textAlign = 'left';
-                } else {
-                    messages[i].style.alignSelf = 'flex-end';
                     messages[i].style.textAlign = 'right';
+                } else {
+                    messages[i].style.color = 'white';
+                    messages[i].style.background = '#363636';
+                    messages[i].style.alignSelf = 'flex-end';
+                    messages[i].style.textAlign = 'left';
                 }
             }
         }
+
+        function changeTheme() {
+            const theme = document.getElementById('theme').value;
+            if (theme === 'whatsapp') {
+                document.body.style.backgroundColor = '#f0f0f0';
+                document.body.style.color = 'white';
+                document.body.style.backgroundImage = "url('https://raw.githubusercontent.com/ppmpreetham/mindmesh/refs/heads/main/back-end%20test/background.png')";
+
+            } else if (theme === 'retro') {
+                document.body.style.backgroundColor = '#f5ecdb';
+                document.body.style.color = '#74c6ef';
+            } else if (theme === 'light') {
+                document.body.style.backgroundColor = '#ffffff';
+                document.body.style.color = 'black';
+            } else {
+                document.body.style.backgroundColor = '';
+                document.body.style.color = '';
+            }
+        }
     </script>
-
-
-</body></html>
+</body>
+</html>
