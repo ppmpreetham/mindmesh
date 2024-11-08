@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat Interaction</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 600px; margin-top: 0px; }
+        .message { padding: 10px; border-radius: 10px; margin-bottom: 10px; max-width: 100%;}
+
+        .received { background-color: #e1f5fe; align-self: flex-start; text-align: left; }
+        .sent { background-color: #c8e6c9; align-self: flex-end; text-align: right; }
+
+        .input-container { display: flex; width: 100%; }
+        .input-container input { flex-grow: 1; padding: 10px; font-size: 16px; }
+        .input-container button { padding: 10px 20px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h2>AI Chat Interaction</h2>
+    <div class="container" id="messages"><div class="message received" style="align-self: flex-end; text-align: left">Hey, how are you</div><div class="message received" style="background: green; align-self: flex-start; text-align: right;">I'm doing well, thank you for asking! How about you?</div><div class="message received" style="align-self: flex-end;">It's nice to hear that you're doing well. I'm good as well, thanks for asking! Let me know if there is anything I can help you with today.</div><div class="message received" style="background: green; align-self: flex-start;">Hi there! How are you feeling today? Any specific issue or question you'd like to ask me about?</div><div class="message received" style="align-self: flex-end;">Hello! I'm feeling fine, thanks for asking. No specific issues or questions, just getting to know the capabilities of this AI chatbot.</div><div class="message received" style="background: green; align-self: flex-start;">That's great to hear! If you have any questions or need help with anything related to programming or development, feel free to ask. I'm here to assist you.</div><div class="message received" style="align-self: flex-end;">Thank you so much for your offer! I was actually wondering if you could help me with a problem I've been facing while trying to implement a basic function in Python. Here's the code:
+```python
+def add_numbers(a, b):
+    return a + b
+```
+Everything seems fine, but I get an error when I try to run it. It says "TypeError: must be str, not int". Any idea what might be causing this issue?</div></div>
+
+    <script>
+        const ws = new WebSocket("ws://localhost:8000/ws");
+
+        ws.onmessage = function(event) {
+            const messages = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', 'received');
+            messageDiv.textContent = event.data;
+            messages.appendChild(messageDiv);
+            applyAlternateColor();
+        };
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value;
+            if (message) {
+                const messages = document.getElementById('messages');
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', 'sent');
+                messageDiv.textContent = message;
+                messages.appendChild(messageDiv);
+                ws.send(message);
+                input.value = '';
+                applyAlternateColor();
+            }
+        }
+
+        function applyAlternateColor() {
+            const messages = document.getElementById('messages').children;
+            for (let i = 0; i < messages.length; i++) {
+                if (i % 2 === 1) {
+                    messages[i].style.background = 'green';
+                    messages[i].style.alignSelf = 'flex-start';
+                    messages[i].style.textAlign = 'left';
+                } else {
+                    messages[i].style.alignSelf = 'flex-end';
+                    messages[i].style.textAlign = 'right';
+                }
+            }
+        }
+    </script>
+
+
+</body></html>

@@ -15,24 +15,19 @@ html = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chat Interaction</title>
     <style>
-        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 90%; max-width: 600px; margin-top: 20px; }
-        .message { padding: 10px; border-radius: 10px; margin-bottom: 10px; max-width: 70%; }
-        .received { background-color: #e1f5fe; align-self: flex-start; }
-        .sent { background-color: #c8e6c9; align-self: flex-end; }
-        .input-container { display: flex; width: 100%; }
-        .input-container input { flex-grow: 1; padding: 10px; font-size: 16px; }
-        .input-container button { padding: 10px 20px; font-size: 16px; }
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; background: #2c2c2c;}
+        .container { width: 100%; max-width: 600px; margin-top: 0px; }
+        .message {border-radius: 10px; margin-bottom: 10px; padding: 10px; }
+
+        .received { background-color: #e1f5fe; align-self: flex-start; text-align: left; }
+        .sent { background-color: #c8e6c9; align-self: flex-end; text-align: right; }
+
     </style>
 </head>
 <body>
     <h2>AI Chat Interaction</h2>
     <div class="container" id="messages"></div>
-    <div class="input-container">
-        <input type="text" id="userInput" placeholder="Type your message..."/>
-        <button onclick="sendMessage()">Send</button>
-    </div>
-    
+
     <script>
         const ws = new WebSocket("ws://localhost:8000/ws");
 
@@ -42,6 +37,7 @@ html = """
             messageDiv.classList.add('message', 'received');
             messageDiv.textContent = event.data;
             messages.appendChild(messageDiv);
+            applyAlternateColor();
         };
 
         function sendMessage() {
@@ -55,11 +51,29 @@ html = """
                 messages.appendChild(messageDiv);
                 ws.send(message);
                 input.value = '';
+                applyAlternateColor();
+            }
+        }
+
+        function applyAlternateColor() {
+            const messages = document.getElementById('messages').children;
+            for (let i = 0; i < messages.length; i++) {
+                if (i % 2 === 1) {
+                    messages[i].style.background = '#005c4b';
+                    messages[i].style.color = 'white';
+                    messages[i].style.alignSelf = 'flex-start';
+                    messages[i].style.textAlign = 'right';
+                } else {
+                    messages[i].style.color = 'white';
+                    messages[i].style.background = '#363636';
+                    messages[i].style.alignSelf = 'flex-end';
+                    messages[i].style.textAlign = 'left';
+                }
             }
         }
     </script>
 </body>
-</html>
+</html> 
 """
 
 host = '192.168.172.85'
