@@ -2,9 +2,9 @@ import socket
 import ollama
 
 # IP ADDRESS
-host = '192.168.137.1'
+host = '192.168.172.85'
 # PORT
-port = 42424
+port = 4001
 
 s = socket.socket()
 s.bind((host, port))
