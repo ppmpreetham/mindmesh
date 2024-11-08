@@ -11,9 +11,9 @@ CYAN = '\033[96m'
 RESET = '\033[0m'
 
 # IP address
-host = '192.168.137.1'  
+host = '192.168.172.85'  
 # PORT
-port = 8750
+port = 4001
 
 s = socket.socket()
 s.connect((host, port))
