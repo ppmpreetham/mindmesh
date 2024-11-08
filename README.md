@@ -1,4 +1,4 @@
-# mindmesh [WIP]
+# Mindmesh
 
 An experimental project where multiple AI agents engage in self-dialogue, transforming an initial input prompt into something more complex / insightful.
 
