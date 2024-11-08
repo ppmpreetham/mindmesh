@@ -1,25 +1,25 @@
 import socket
 import ollama
 
-#IP ADDRESS
-host = '192.168.14.245'
-#PORT
+# IP ADDRESS
+host = '192.168.137.1'
+# PORT
 port = 42424
 
 s = socket.socket()
 s.bind((host, port))
-print(f"Server started on {host}:{port}")
+print(f"\033[92mServer started on {host}:{port}\033[0m")
 s.listen(1)
 c, addr = s.accept()
-print(f"Connection accepted from {addr}")
+print(f"\033[92mConnection accepted from {addr}\033[0m")
 
 while True:
     # Receiving the message from the client
     data = c.recv(1024).decode()
     if not data:
-        print("No data received. Closing connection.")
+        print("\033[91mNo data received. Closing connection.\033[0m")
         break
-    print(f"Received from AI-1: {data}\n")
+    print(f"\033[94mReceived from AI-1: {data}\033[0m\n")
     
     # OLLAMA AI interaction
     message = data
@@ -31,11 +31,11 @@ while True:
     if 'message' in ai_response and 'content' in ai_response['message']:
         response = ai_response['message']['content']
     else:
-        response = "Sorry, I couldn't process that."
+        response = "\033[91mSorry, I couldn't process that.\033[0m"
 
     # Sending the AI response to the client
     c.send(response.encode())
-    print(f"Sent to AI-1: {response}\n")
+    print(f"\033[94mSent to AI-1: {response}\033[0m\n")
 
 c.close()
-print("Connection closed.")
+print("\033[91mConnection closed.\033[0m")

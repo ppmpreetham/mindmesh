@@ -1,36 +1,60 @@
-from fastapi import FastAPI
 import socket
 import ollama
-from typing import List
-
+from fastapi import FastAPI
+from pydantic import BaseModel
 app = FastAPI()
 
-def connect_to_server():
-    s = socket.socket()
-    s.connect(('192.168.14.245', 42424))
-    return s
+# IP ADDRESS
+host = '192.168.137.1'
+# PORT
+port = 42424
 
-@app.post("/start-conversation/")
-async def start_conversation(initial_message: str):
-    # Step 1: Send the initial message to the server (AI-2)
-    conversation = []
-    conversation.append(f"Sending to AI-2: {initial_message}")
+s = socket.socket()
+s.bind((host, port))
+print(f"\033[92mServer started on {host}:{port}\033[0m")
+s.listen(1)
+c, addr = s.accept()
+print(f"\033[92mConnection accepted from {addr}\033[0m")
 
-    with connect_to_server() as server_socket:
-        server_socket.send(initial_message.encode())
-        response = server_socket.recv(1024).decode()
+while True:
+    # Receiving the message from the client
+    data = c.recv(1024).decode()
+    if not data:
+        print("\033[91mNo data received. Closing connection.\033[0m")
+        break
+    print(f"\033[94mReceived from AI-1: {data}\033[0m\n")
+    
+    class InputData(BaseModel):
+        data: str
+        response: str
 
-    conversation.append(f"Received from AI-2: {response}")
+    InputData.text = data
+    
+    @app.post("/process")
+    async def process_text(data: InputData):
+        result = data.text
+        return {"result": result}
 
-    # Step 2: AI-1 sends the message to AI-2 and gets a response
-    ai_response = ollama.chat(
-        model="openhermes",
-        messages=[{"role": 'user', "content": response}],
-    )
+    # OLLAMA AI interaction
+    message = data
+    ai_response = ollama.chat(model="openhermes", messages=[{
+        "role": 'user',
+        "content": message,
+    }])
+
     if 'message' in ai_response and 'content' in ai_response['message']:
-        ai_message = ai_response['message']['content']
+        response = ai_response['message']['content']
     else:
-        ai_message = "Sorry, I couldn't process that."
+        response = "\033[91mSorry, I couldn't process that.\033[0m"
 
-    conversation.append(f"AI response: {ai_message}")
-    return {"conversation": conversation}
+    # Sending the AI response to the client
+    c.send(response.encode())
+    print(f"\033[94mSent to AI-1: {response}\033[0m\n")
+
+    @app.post("/process")
+    async def process_text(response: InputData):
+        result = response.text
+        return {"result": result}
+
+c.close()
+print("\033[91mConnection closed.\033[0m")
