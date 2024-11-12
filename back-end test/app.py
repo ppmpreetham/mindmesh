@@ -83,22 +83,51 @@ html = """
 
         function changeTheme() {
             const theme = document.getElementById('theme').value;
+            const messages = document.getElementsByClassName('message');
             if (theme === 'whatsapp') {
                 document.body.style.backgroundColor = '#f0f0f0';
                 document.body.style.color = 'white';
                 document.body.style.backgroundImage = "url('https://raw.githubusercontent.com/ppmpreetham/mindmesh/refs/heads/main/back-end%20test/background.png')";
-                
+                for (let message of messages) {
+                    if (message.classList.contains('received')) {
+                        message.style.backgroundColor = '#e1f5fe';
+                    } else {
+                        message.style.backgroundColor = '#c8e6c9';
+                    }
+                }
             } else if (theme === 'retro') {
                 document.body.style.backgroundColor = '#f5ecdb';
                 document.body.style.backgroundImage = "url('https://raw.githubusercontent.com/ppmpreetham/mindmesh/refs/heads/main/back-end%20test/biege.png')";
-                
                 document.body.style.color = '#74c6ef';
-            } else if (theme === 'light') {
+                for (let message of messages) {
+                    if (message.classList.contains('received')) {
+                        message.style.backgroundColor = '#e1f5fe';
+                    } else {
+                        message.style.backgroundColor = '#c8e6c9';
+                    }
+                }
+            } else if (theme === 'love') {
+                document.body.style.backgroundImage = "url('https://raw.githubusercontent.com/ppmpreetham/mindmesh/refs/heads/main/back-end%20test/wallpaper2you_40542.jpg')";
                 document.body.style.backgroundColor = '#ffffff';
                 document.body.style.color = 'black';
+                for (let message of messages) {
+                    if (message.classList.contains('received')) {
+                        message.style.backgroundColor = '#ffcccb';
+                    } else {
+                        message.style.backgroundColor = '#ffb6c1';
+                    }
+                }
             } else {
                 document.body.style.backgroundColor = '';
                 document.body.style.color = '';
+                document.body.style.backgroundImage = '';
+                for (let message of messages) {
+                    if (message.classList.contains('received')) {
+                        message.style.backgroundColor = '#e1f5fe';
+                    } else {
+                        message.style.backgroundColor = '#c8e6c9';
+                    }
+                }
             }
         }
     </script>
